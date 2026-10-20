@@ -1,0 +1,382 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: products
+    description: NIXX storefront product catalog
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /products:
+    get:
+      operationId: listProducts
+      tags: [products]
+      summary: List active storefront products
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/ProductCategory"
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 100
+      responses:
+        "200":
+          description: Active products
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductList"
+        "500":
+          $ref: "#/components/responses/ServerError"
+    post:
+      operationId: createProduct
+      tags: [products]
+      summary: Add a storefront product
+      security:
+        - AdminToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductInput"
+      responses:
+        "201":
+          description: Created product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /products/manage:
+    get:
+      operationId: listManagedProducts
+      tags: [products]
+      summary: List all products for administration
+      security:
+        - AdminToken: []
+      parameters:
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 100
+      responses:
+        "200":
+          description: All products
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductList"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /products/stats:
+    get:
+      operationId: getProductStats
+      tags: [products]
+      summary: Get product counts for the admin dashboard
+      security:
+        - AdminToken: []
+      responses:
+        "200":
+          description: Product count summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductStats"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /products/{id}:
+    patch:
+      operationId: updateProduct
+      tags: [products]
+      summary: Update a product
+      security:
+        - AdminToken: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductUpdate"
+      responses:
+        "200":
+          description: Updated product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      operationId: deleteProduct
+      tags: [products]
+      summary: Delete a product
+      security:
+        - AdminToken: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 64
+      responses:
+        "200":
+          description: Deleted product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductDeleteResult"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+components:
+  securitySchemes:
+    AdminToken:
+      type: http
+      scheme: bearer
+      bearerFormat: Admin token
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+    Unauthorized:
+      description: Admin token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+    NotFound:
+      description: Product not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+    ServerError:
+      description: Server error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    ProductCategory:
+      type: string
+      enum:
+        - get-key
+        - vip-key
+        - license
+        - roblox-map-template
+        - ready-map
+        - ready-system
+        - script
+    Product:
+      type: object
+      required:
+        - id
+        - name
+        - category
+        - price
+        - description
+        - imageUrl
+        - orderUrl
+        - features
+        - featured
+        - active
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        category:
+          $ref: "#/components/schemas/ProductCategory"
+        price:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: ["string", "null"]
+        orderUrl:
+          type: ["string", "null"]
+        features:
+          type: array
+          items:
+            type: string
+        featured:
+          type: boolean
+        active:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    ProductInput:
+      type: object
+      required: [name, category, price, description]
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 100
+        category:
+          $ref: "#/components/schemas/ProductCategory"
+        price:
+          type: string
+          minLength: 1
+          maxLength: 60
+        description:
+          type: string
+          minLength: 1
+          maxLength: 1000
+        imageUrl:
+          type: ["string", "null"]
+          maxLength: 2048
+        orderUrl:
+          type: ["string", "null"]
+          maxLength: 2048
+        features:
+          type: array
+          maxItems: 20
+          items:
+            type: string
+            maxLength: 160
+        featured:
+          type: boolean
+        active:
+          type: boolean
+    ProductUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 100
+        category:
+          $ref: "#/components/schemas/ProductCategory"
+        price:
+          type: string
+          minLength: 1
+          maxLength: 60
+        description:
+          type: string
+          minLength: 1
+          maxLength: 1000
+        imageUrl:
+          type: ["string", "null"]
+          maxLength: 2048
+        orderUrl:
+          type: ["string", "null"]
+          maxLength: 2048
+        features:
+          type: array
+          maxItems: 20
+          items:
+            type: string
+            maxLength: 160
+        featured:
+          type: boolean
+        active:
+          type: boolean
+    ProductList:
+      type: object
+      required: [products]
+      properties:
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+    ProductResponse:
+      type: object
+      required: [product]
+      properties:
+        product:
+          $ref: "#/components/schemas/Product"
+    ProductStats:
+      type: object
+      required: [total, active, featured, byCategory]
+      properties:
+        total:
+          type: integer
+        active:
+          type: integer
+        featured:
+          type: integer
+        byCategory:
+          type: array
+          items:
+            type: object
+            required: [category, count]
+            properties:
+              category:
+                $ref: "#/components/schemas/ProductCategory"
+              count:
+                type: integer
+    ProductDeleteResult:
+      type: object
+      required: [ok]
+      properties:
+        ok:
+          type: boolean
+    ApiError:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+

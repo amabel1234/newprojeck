@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NIXX VIP — Admin Panel</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    :root{--admin-sidebar:250px;--admin-pink:#ff2bb5;--admin-purple:#8a45ff;--admin-bg:#0f1019;--admin-card:#171925;--admin-border:rgba(255,255,255,.09)}
+    body{min-height:100vh;background:var(--admin-bg);color:#fff}.admin-app{display:grid;grid-template-columns:var(--admin-sidebar) 1fr;min-height:100vh}.admin-sidebar{position:sticky;top:0;height:100vh;padding:22px 16px;border-right:1px solid var(--admin-border);background:rgba(11,12,19,.92);backdrop-filter:blur(16px);display:flex;flex-direction:column;z-index:20}.admin-brand{display:flex;align-items:center;gap:11px;padding:10px 10px 22px}.admin-brand-logo{width:40px;height:40px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,var(--admin-pink),var(--admin-purple));font-weight:900}.admin-brand b{display:block;font-size:14px}.admin-brand small{color:#9b9eaf;font-size:9px;letter-spacing:.12em}.admin-nav{display:grid;gap:6px}.admin-nav button{appearance:none;border:1px solid transparent;background:transparent;color:#aeb1c0;border-radius:12px;padding:12px 13px;text-align:left;font:700 12px inherit;cursor:pointer;transition:.18s}.admin-nav button:hover{background:rgba(255,255,255,.05);color:#fff}.admin-nav button.active{background:linear-gradient(135deg,rgba(255,43,181,.16),rgba(138,69,255,.16));border-color:rgba(255,43,181,.18);color:#fff}.admin-side-bottom{margin-top:auto}.admin-side-bottom .button{width:100%}.admin-main{min-width:0;padding:28px}.admin-page{display:none;max-width:1200px;margin:0 auto}.admin-page.active{display:block}.admin-topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:24px}.admin-topbar h1{margin:4px 0;font-size:clamp(26px,4vw,40px);letter-spacing:-.05em}.admin-muted{color:#9da0b2;font-size:12px;line-height:1.6}.admin-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.stat-card,.admin-card{background:var(--admin-card);border:1px solid var(--admin-border);border-radius:20px}.stat-card{padding:18px}.stat-card small{display:block;color:#8d90a1;font:700 9px ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase}.stat-card b{display:block;margin-top:9px;font-size:28px}.admin-card{padding:20px}.admin-stack{display:grid;gap:14px}.admin-card h2{margin:5px 0;font-size:20px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.form-field{display:grid;gap:7px}.form-field.full{grid-column:1/-1}.form-field label{font-size:10px;color:#9da0b2;text-transform:uppercase;letter-spacing:.09em;font-weight:800}.form-field input,.form-field textarea,.form-field select{width:100%;border:1px solid rgba(255,255,255,.11);background:#0f111a;color:#fff;border-radius:12px;padding:12px 13px;outline:none;font:inherit}.form-field input:focus,.form-field textarea:focus,.form-field select:focus{border-color:rgba(255,43,181,.55);box-shadow:0 0 0 3px rgba(255,43,181,.1)}.form-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.button{cursor:pointer}.button-primary{background:linear-gradient(135deg,var(--admin-pink),var(--admin-purple))!important;border-color:transparent!important;color:#fff!important}.button-danger{border-color:rgba(255,90,110,.35)!important;color:#ff8798!important}.button-secondary{border-color:rgba(138,69,255,.4)!important;color:#caa7ff!important}.check-row{display:flex;align-items:center;gap:9px;color:#b6b8c7;font-size:12px}.check-row input{width:auto}.license-list,.script-list{display:grid;gap:12px}.item-card{padding:16px;border:1px solid var(--admin-border);border-radius:16px;background:rgba(255,255,255,.025)}.item-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.item-head strong{font-size:14px}.item-meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:13px}.item-meta span{font-size:10px;color:#838697}.item-meta b{display:block;margin-top:4px;color:#fff;font-size:11px}.cover-preview{width:100%;max-width:480px;aspect-ratio:16/9;object-fit:cover;border-radius:14px;border:1px solid var(--admin-border);margin-top:6px}.login-screen{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 50% 10%,rgba(138,69,255,.22),transparent 35%),#090a10}.login-card{width:min(440px,100%);padding:30px;border:1px solid var(--admin-border);border-radius:24px;background:rgba(23,25,37,.96);box-shadow:0 30px 100px rgba(0,0,0,.45)}.login-logo{width:54px;height:54px;display:grid;place-items:center;border-radius:17px;background:linear-gradient(135deg,var(--admin-pink),var(--admin-purple));font-weight:900;font-size:20px}.login-card h1{margin:18px 0 7px;font-size:32px;letter-spacing:-.06em}.login-error{min-height:18px;color:#ff7f95;font-size:11px;margin-top:10px}.mobile-toggle{display:none}.notice{margin-top:10px;color:#9da0b2;font-size:11px}.tag{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,43,181,.24);background:rgba(255,43,181,.08);color:#ff8bd8;border-radius:999px;padding:6px 9px;font:800 9px ui-monospace,monospace;letter-spacing:.08em}.hidden{display:none!important}
+    @media(max-width:980px){.admin-app{grid-template-columns:1fr}.admin-sidebar{position:fixed;left:0;top:0;transform:translateX(-105%);width:min(290px,86vw);box-shadow:25px 0 80px rgba(0,0,0,.4);transition:.22s}.admin-sidebar.open{transform:none}.mobile-toggle{display:inline-flex}.admin-main{padding:18px}.admin-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    .admin-product-thumb{width:48px;height:40px;object-fit:cover;border-radius:9px;border:1px solid var(--admin-border);background:#0f111a}
+    @media(max-width:650px){.form-grid,.admin-grid{grid-template-columns:1fr}.item-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-topbar{align-items:flex-start}.admin-topbar .button{flex-shrink:0}}
+  </style>
+</head>
+<body>
+  <section id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <div class="login-logo">ϟ</div>
+      <h1>Admin Panel</h1>
+      <p class="admin-muted">Masukkan admin token untuk membuka panel NIXX VIP.</p>
+      <form id="loginForm" class="admin-stack" style="margin-top:20px">
+        <div class="form-field"><label for="loginToken">Admin Token</label><input id="loginToken" type="password" autocomplete="off" placeholder="Masukkan ADMIN_TOKEN" required></div>
+        <button class="button button-primary button-full" type="submit">Masuk ke Admin ↗</button>
+        <div id="loginError" class="login-error"></div>
+      </form>
+      <p class="notice">Hanya role <b>admin</b> yang bisa membuka panel ini. Token tersimpan sementara di sesi browser.</p>
+    </div>
+  </section>
+
+  <div id="adminApp" class="admin-app hidden">
+    <aside id="adminSidebar" class="admin-sidebar">
+      <div class="admin-brand"><div class="admin-brand-logo">ϟ</div><div><b>NIXX VIP</b><small>ADMIN CONTROL</small></div></div>
+      <nav id="adminNav" class="admin-nav">
+        <button class="active" data-page="dashboard">◈ Dashboard</button>
+        <button data-page="licenses">⌁ License Database</button>
+        <button data-page="scripts">▣ Script Products</button>
+        <button data-page="announcement">◉ Announcement</button>
+        <button data-page="settings">⚙ Settings</button>
+      </nav>
+      <div class="admin-side-bottom"><button class="button button-danger button-full" id="logoutBtn" type="button">Logout</button></div>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-topbar"><div><span class="tag">ADMIN <span id="roleBadge">OFFLINE</span></span><h1 id="pageTitle">Dashboard</h1><p id="pageSubtitle" class="admin-muted">Kontrol utama NIXX VIP.</p></div><button id="mobileToggle" class="button mobile-toggle" type="button">☰ Menu</button></div>
+
+      <section id="page-dashboard" class="admin-page active">
+        <div class="admin-grid">
+          <article class="stat-card"><small>Total License</small><b id="statLicenses">0</b></article>
+          <article class="stat-card"><small>Active License</small><b id="statActive">0</b></article>
+          <article class="stat-card"><small>Script Products</small><b id="statScripts">0</b></article>
+          <article class="stat-card"><small>Announcement</small><b id="statAnnouncement">OFF</b></article>
+        </div>
+        <div class="admin-stack" style="margin-top:14px"><article class="admin-card"><span class="tag">QUICK ACTION</span><h2>Kelola Script Product</h2><p class="admin-muted">Upload cover + file Lua/TXT, atur harga dan detail produk. Produk akan tampil otomatis di paling atas storefront.</p><div class="form-actions"><button class="button button-primary" data-goto="scripts" type="button">Upload Script Product ↗</button><button class="button" data-goto="licenses" type="button">Kelola License</button></div></article></div>
+      </section>
+
+      <section id="page-licenses" class="admin-page">
+        <div class="admin-stack">
+          <article class="admin-card"><div class="admin-topbar" style="margin-bottom:0"><div><span class="tag">LICENSE</span><h2>Generate License Key</h2><p class="admin-muted">Buat key setelah pembayaran pembeli terverifikasi.</p></div><button class="button" id="refreshKeys" type="button">↻ Refresh</button></div>
+            <form id="issueForm" class="form-grid" style="margin-top:16px"><div class="form-field"><label for="customer">Nama / username pembeli</label><input id="customer" placeholder="username-pembeli" required></div><div class="form-field"><label for="days">Masa aktif</label><select id="days"><option value="1">1 Hari</option><option value="3">3 Hari</option><option value="7" selected>7 Hari</option><option value="30">30 Hari</option></select></div><div class="form-field full"><button class="button button-primary button-full" type="submit">Generate Key ↗</button></div></form>
+            <div id="result" hidden style="margin-top:16px"><span class="tag">KEY GENERATED</span><div id="generatedKey" style="font:800 16px ui-monospace,monospace;word-break:break-all;margin-top:9px"></div><div class="form-actions"><button class="button button-primary" id="copyKey" type="button">Copy Key</button><a class="button" id="sendWhatsapp" target="_blank" rel="noreferrer">Kirim ke WhatsApp ↗</a></div></div>
+          </article>
+          <article class="admin-card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><div><span class="tag">DATABASE</span><h2>Daftar License</h2></div></div><div id="licenseList" class="license-list" style="margin-top:15px"><div class="item-card">Belum memuat license.</div></div></article>
+        </div>
+      </section>
+
+      <section id="page-scripts" class="admin-page">
+        <div class="admin-stack">
+          <article class="admin-card"><span class="tag">SCRIPT PRODUCT</span><h2 id="scriptFormTitle">Upload Produk SC</h2><p class="admin-muted">Atur sendiri semua isi produk. Cover dan data ini akan tampil di section Script Products sebelum VVIP Key. Produk yang sudah live juga bisa diedit tanpa upload ulang file.</p>
+            <form id="scriptUploadForm" class="form-grid" style="margin-top:16px">
+              <input id="scriptEditId" type="hidden">
+              <div class="form-field"><label for="scriptTitle">Nama produk</label><input id="scriptTitle" maxlength="80" placeholder="NIXXTEAM Blade Spin" required></div>
+              <div class="form-field"><label for="scriptPrice">Harga</label><input id="scriptPrice" maxlength="40" placeholder="Rp25.000" required></div>
+              <div class="form-field"><label for="scriptBadge">Badge / label</label><input id="scriptBadge" maxlength="40" placeholder="SCRIPT ROBLOX"></div>
+              <div class="form-field"><label for="scriptVersion">Versi</label><input id="scriptVersion" maxlength="30" placeholder="v2.0"></div>
+              <div class="form-field"><label for="scriptCategory">Kategori</label><input id="scriptCategory" maxlength="40" placeholder="Blade Spin"></div>
+              <div class="form-field"><label for="scriptOrderLabel">Teks tombol</label><input id="scriptOrderLabel" maxlength="30" value="Order Sekarang"></div>
+              <div class="form-field full"><label for="scriptOrderUrl">Link order (opsional)</label><input id="scriptOrderUrl" maxlength="400" placeholder="https://wa.me/... atau Discord / checkout URL"></div>
+              <div class="form-field full"><label for="scriptDescription">Deskripsi</label><textarea id="scriptDescription" maxlength="500" rows="4" placeholder="Deskripsi produk script..." required></textarea></div>
+              <div class="form-field full"><label for="scriptFeatures">Fitur / isi produk</label><textarea id="scriptFeatures" maxlength="1000" rows="6" placeholder="Satu fitur per baris&#10;Auto Farm&#10;Sword Battles&#10;Support update"></textarea></div>
+              <div class="form-field"><label for="scriptCover">Cover produk</label><input id="scriptCover" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"><img id="scriptCoverPreview" class="cover-preview hidden" alt="Preview cover"><p class="admin-muted">JPG, PNG, atau WebP. Akan dioptimalkan otomatis agar upload aman di Vercel.</p></div>
+              <div class="form-field"><label for="scriptFile">File Script</label><input id="scriptFile" type="file" accept=".lua,.txt,text/plain"><p class="admin-muted">Maksimal file script sekitar 2 MB. Saat edit, kosongkan jika file tidak diganti.</p></div>
+              <div class="form-field full"><label class="check-row"><input id="scriptFeatured" type="checkbox"> Jadikan produk unggulan</label></div>
+              <div class="form-field full"><div class="form-actions"><button id="scriptSubmitButton" class="button button-primary" type="submit">Publish Produk SC ↗</button><button id="cancelScriptEdit" class="button button-secondary hidden" type="button">Batal Edit</button></div></div>
+            </form>
+            <p id="scriptUploadStatus" class="admin-muted" style="margin-top:10px"></p>
+          </article>
+          <article class="admin-card"><div class="admin-topbar" style="margin-bottom:0"><div><span class="tag">PUBLISHED</span><h2>Produk SC Online</h2></div><button class="button" id="refreshScripts" type="button">↻ Refresh</button></div><div id="scriptAdminList" class="script-list" style="margin-top:15px"><div class="item-card">Belum memuat produk.</div></div></article>
+        </div>
+      </section>
+
+      <section id="page-announcement" class="admin-page">
+        <article class="admin-card"><span class="tag">SITE CONTROL</span><h2>Announcement</h2><p class="admin-muted">Atur banner pengumuman yang tampil di storefront.</p><form id="announcementForm" class="form-grid" style="margin-top:16px"><div class="form-field full"><label for="announcementText">Pesan</label><input id="announcementText" maxlength="300" placeholder="Maintenance malam ini..."></div><div class="form-field"><label for="announcementType">Tipe</label><select id="announcementType"><option value="info">Info</option><option value="success">Success</option><option value="warning">Warning</option><option value="danger">Danger</option></select></div><div class="form-field" style="align-content:end"><label class="check-row"><input id="announcementEnabled" type="checkbox"> Aktifkan banner</label></div><div class="form-field full"><button class="button button-primary button-full" type="submit">Simpan Announcement</button></div></form><p id="announcementStatus" class="admin-muted" style="margin-top:10px"></p></article>
+      </section>
+
+      <section id="page-settings" class="admin-page">
+        <article class="admin-card"><span class="tag">SETTINGS</span><h2>Session & Info</h2><p class="admin-muted">Panel ini memakai ADMIN_TOKEN dari environment Vercel. Token tidak ditulis ke file frontend.</p><div class="item-meta"><span>Role<b id="settingsRole">-</b></span><span>API Base<b>Same origin</b></span><span>Session<b>sessionStorage</b></span><span>Store<b>Redis + GitHub</b></span></div></article>
+      </section>
+    </main>
+  </div>
+  <script src="./admin.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "nixx-products-vercel",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "fengari": "^0.1.5"
+  }
+}
